@@ -7,7 +7,7 @@ const dancingScript = Dancing_Script({ subsets: ['latin'] })
 const athiti = Athiti({ subsets: ["thai"], weight: ["200", "300", "400", "500", "600", "700"] })
 
 export const metadata: Metadata = {
-  title: "Make a wish",
+  title: "Make a wish | KU Tech",
   description: "เวลาก็จะวนมาครบ 1 ปีอีกแล้วน้า ปีนี้เราผ่านอะไรมาเยอะเลย เราทุกคนเก่งมากเย่",
   authors : {
     name : "SornchaiTheDev",
