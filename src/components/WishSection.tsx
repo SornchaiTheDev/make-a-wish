@@ -10,7 +10,6 @@ import { useWishCount } from '~/hooks/useWishCount'
 import axios from 'axios'
 import { TAddWish } from '~/types/TAddWish'
 import send from '~/lottie/send.json'
-import { useRouter } from 'next/navigation'
 
 function WishSection() {
   const [isMakeAWishOpen, setIsMakeAWishOpen] = useState(false)
@@ -40,7 +39,7 @@ function WishSection() {
   const handleOnLottieEvent = (e: PlayerEvent) => {
     if (e === "complete") {
       setIsSent(false)
-      // if (wishId === "RATE_LIMIT") return;
+      if (wishId === "RATE_LIMIT") return;
       window.location.href = `/wishes/${wishId}`
     }
   }
