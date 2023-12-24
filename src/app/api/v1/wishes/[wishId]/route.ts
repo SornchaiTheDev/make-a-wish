@@ -1,6 +1,8 @@
 import { FieldValue } from "firebase-admin/firestore";
 import { db } from "../../firebase";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   _: Request,
   { params }: { params: { wishId: string } }
@@ -11,10 +13,10 @@ export async function GET(
   const docSnap = await docRef.get();
 
   if (docSnap.exists) {
-    return Response.json(docSnap.data());
+    return Response.json({ ...docSnap.data(), id: docSnap.id });
   }
 
-  return Response.json("NOT_FOUND");
+  return Response.json(null);
 }
 
 type Reaction = {

@@ -1,12 +1,12 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TWish } from "~/types/TWish";
 
 interface Params {
-  id?: string;
+  wishObject: TWish;
 }
-export const useWish = ({ id }: Params) => {
-  const [wish, setWish] = useState<TWish | null>(null);
+export const useWish = ({ wishObject }: Params) => {
+  const [wish, setWish] = useState(wishObject);
 
   const sendReaction = async (reaction: "love" | "laugh" | "candy") => {
     if (wish !== null) {
@@ -16,19 +16,10 @@ export const useWish = ({ id }: Params) => {
       });
     }
 
-    await axios.put(`/api/v1/wishes/${id}`, {
+    await axios.put(`/api/v1/wishes/${wish.id}`, {
       reaction,
     });
   };
-
-  useEffect(() => {
-    const getWish = async () => {
-      const res = await axios.get(`/api/v1/wishes/${id}`);
-      setWish(res.data);
-    };
-
-    getWish();
-  }, [id]);
 
   return { wish, sendReaction };
 };
