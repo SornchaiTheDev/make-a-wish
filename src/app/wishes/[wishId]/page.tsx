@@ -6,11 +6,13 @@ import Lottie from '~/components/Lottie'
 import { useWish } from '~/hooks/useWish'
 import { useRouter } from 'next/navigation'
 import firework from '~/lottie/firework.json'
+import axios from 'axios'
 
 function Wish({ params }: { params: { wishId: string } }) {
   const { wishId } = params
   const [isCopy, setIsCopy] = useState(false)
   const { wish, sendReaction } = useWish({ id: wishId })
+  const router = useRouter()
 
   const handleOnLoveClick = () => sendReaction("love")
   const handleOnCandyClick = () => sendReaction("candy")
@@ -23,8 +25,10 @@ function Wish({ params }: { params: { wishId: string } }) {
     }
   }
 
-  const handleOnClickMakeAWish = () => {
-    window.location.href = "/"
+  const handleOnClickRandomAWish = async () => {
+    const wishId = await axios.get("/api/v1/wishes/random")
+
+    router.push(`/wishes/${wishId.data}`)
   }
 
   const handleOnClickBack = () => {
@@ -73,8 +77,8 @@ function Wish({ params }: { params: { wishId: string } }) {
           </div>
         </div>
         <div className="flex flex-wrap gap-4">
-          <button onClick={handleOnClickBack} className="hover:bg-white hover:text-black border-2 px-8 py-2 rounded-full w-full lg:w-48 mt-4">ย้อนกลับ</button>
-          <button onClick={handleOnClickMakeAWish} className="hover:bg-white hover:text-black border-2 px-8 py-2 rounded-full w-full lg:w-48 mt-4">เขียนคำอวยพร</button>
+          <button onClick={handleOnClickBack} className="hover:bg-white hover:text-black border-2 px-8 py-2 rounded-full w-full lg:w-48 mt-4">หน้าแรก</button>
+          <button onClick={handleOnClickRandomAWish} className="hover:bg-white hover:text-black border-2 px-8 py-2 rounded-full w-full lg:w-48 mt-4">สุ่มอ่านคำอวยพร</button>
         </div>
       </div>
     </>

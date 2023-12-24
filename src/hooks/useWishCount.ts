@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-interface Params {
-  
-}
-
 export const useWishCount = () => {
   const [wishCount, setWishCount] = useState(0);
 
