@@ -4,7 +4,7 @@ import Chance from "chance";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(_: Request) {
+export async function GET() {
   const count = await getWishCount();
   const chance = new Chance();
   const random = chance.integer({ min: 0, max: count - 1 });

@@ -1,5 +1,8 @@
 import { getWishCount } from "../utils/getWishCount";
-export async function GET(_: Request) {
+
+export const dynamic = "force-dynamic";
+
+export async function GET() {
   try {
     const count = await getWishCount();
     return Response.json({ count });
