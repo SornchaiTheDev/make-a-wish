@@ -18,6 +18,8 @@ function WishSection() {
   const [isSent, setIsSent] = useState(false);
   const { wishCount } = useWishCount()
 
+  const isNoWish = wishCount === 0
+
   const handleOnMakeAWishClick = () => {
     setIsMakeAWishOpen(true)
   }
@@ -45,6 +47,7 @@ function WishSection() {
   }
 
   const handleOnRandomAWishClick = async () => {
+    if (isNoWish) return
     setIsRandomWishClick(true)
 
     if (isRandomWishClick) return;
@@ -61,7 +64,7 @@ function WishSection() {
 
       <div className="w-full max-w-64">
         <h6 className="text-center my-4">คำอวยพรทั้งหมด <span>•</span> {formatNumber(wishCount)} ครั้ง</h6>
-        <button onClick={handleOnRandomAWishClick} className="hover:bg-white hover:text-black border-2 px-8 py-2 rounded-full w-full mt-10">{isRandomWishClick ? "กำลังสุ่ม..." : "สุ่มอ่านคำอวยพร"}</button>
+        <button onClick={handleOnRandomAWishClick} className="hover:bg-white hover:text-black border-2 px-8 py-2 rounded-full w-full mt-10" disabled={isNoWish}>{isRandomWishClick ? "กำลังสุ่ม..." : "สุ่มอ่านคำอวยพร"}</button>
         <div className="flex mx-auto my-4 w-1/2 gap-2 items-center">
           <div className="border flex-1 bg-white"></div>
           <p>หรือ</p>
