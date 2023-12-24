@@ -1,20 +1,20 @@
 import { FieldValue } from "firebase-admin/firestore";
 import { db } from "../../firebase";
-import { NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
+  _: Request,
   { params }: { params: { wishId: string } }
 ) {
   const { wishId } = params;
-  const docRef = db.doc(`wishes/${wishId}`);
+
+  const docRef = db.collection("wishes").doc(wishId);
   const docSnap = await docRef.get();
 
   if (docSnap.exists) {
-    return NextResponse.json(docSnap.data());
+    return Response.json(docSnap.data());
   }
 
-  return NextResponse.json("NOT_FOUND");
+  return Response.json("NOT_FOUND");
 }
 
 type Reaction = {
@@ -34,8 +34,8 @@ export async function PUT(
       [reaction]: FieldValue.increment(1),
     });
   } catch (err) {
-    return NextResponse.error();
+    return Response.error();
   }
 
-  return NextResponse.json("OK");
+  return Response.json("OK");
 }

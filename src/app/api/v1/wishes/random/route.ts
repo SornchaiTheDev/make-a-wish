@@ -1,16 +1,19 @@
-import { NextResponse } from "next/server";
 import { getWishCount } from "../../utils/getWishCount";
 import { db } from "../../firebase";
+import Chance from "chance";
 
-export async function GET() {
+export const dynamic = "force-dynamic";
+
+export async function GET(_: Request) {
   const count = await getWishCount();
-  const random = Math.max(Math.floor(Math.random() * count), 0);
-  const wish = await db.collection("wishes").where("index", "==", random).get();
-  if (wish.empty) {
-    return NextResponse.error();
-  }
-  let wishId = "";
-  wish.forEach((doc) => (wishId = doc.id));
+  const chance = new Chance();
+  const random = chance.integer({ min: 0, max: count - 1 });
 
-  return NextResponse.json(wishId);
+  const wishRef = db.collection("wishes").where("index", "==", random);
+  const wishSnap = await wishRef.get();
+
+  let wishId;
+  wishSnap.forEach((doc) => (wishId = doc.id));
+
+  return Response.json(wishId);
 }

@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { db } from "../firebase";
 import { FieldValue } from "firebase-admin/firestore";
 
@@ -29,8 +28,8 @@ export async function POST(req: Request) {
 
     const wish = await db.collection("wishes").add(wishDoc);
 
-    return NextResponse.json(wish.id);
+    return Response.json(wish.id);
   } catch (err) {
-    return NextResponse.error();
+    return Response.error();
   }
 }
