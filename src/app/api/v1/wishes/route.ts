@@ -1,7 +1,21 @@
 import { db } from "../firebase";
 import { FieldValue } from "firebase-admin/firestore";
+import { Redis } from "@upstash/redis";
+import { Ratelimit } from "@upstash/ratelimit";
+
+const redis = Redis.fromEnv();
+const rateLimiter = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(1, "10 s"),
+});
 
 export async function POST(req: Request) {
+  const result = await rateLimiter.limit("api");
+
+  if (!result.success) {
+    return Response.json("RATE_LIMIT");
+  }
+
   const res = await req.json();
   const { from, body } = res;
   const wishDoc = {
@@ -28,7 +42,12 @@ export async function POST(req: Request) {
 
     const wish = await db.collection("wishes").add(wishDoc);
 
-    return Response.json(wish.id);
+    return Response.json(wish.id, {
+      headers: {
+        "X-RateLimit-Limit": result.limit.toString(),
+        "X-RateLimit-Remaining": result.remaining.toString(),
+      },
+    });
   } catch (err) {
     return Response.error();
   }

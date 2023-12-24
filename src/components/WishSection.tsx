@@ -31,13 +31,16 @@ function WishSection() {
     setIsSent(true)
     setIsMakeAWishOpen(false)
 
-    const wishId = await axios.post("/api/v1/wishes", wish)
-    setWishId(wishId.data)
+    const res = await axios.post("/api/v1/wishes", wish)
+    if (res.data !== "RATE_LIMIT") {
+      setWishId(res.data)
+    }
   }
 
   const handleOnLottieEvent = (e: PlayerEvent) => {
     if (e === "complete") {
       setIsSent(false)
+      if (wishId === "") return;
       window.location.href = `/wishes/${wishId}`
     }
   }
