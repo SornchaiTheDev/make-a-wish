@@ -1,4 +1,7 @@
 export type TWish = {
-  name: string
-  body: string
-}
+  from: string;
+  body: string;
+  candy: number;
+  laugh: number;
+  love: number;
+};

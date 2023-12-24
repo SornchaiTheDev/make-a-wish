@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={twMerge(dancingScript.className, athiti.className, "bg-black")}>{children}</body>
+      <body className={twMerge(dancingScript.className, athiti.className ,"bg-black")}>{children}</body>
     </html>
   )
 }

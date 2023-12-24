@@ -7,10 +7,10 @@ const formatAsTwoDigits = (value: number) => {
 
 export const useCountdown = (date: Date) => {
   const [time, setTime] = useState({
-    days: "",
-    hours: "",
-    minutes: "",
-    seconds: "",
+    days: "#",
+    hours: "#",
+    minutes: "#",
+    seconds: "#",
   });
 
   useEffect(() => {

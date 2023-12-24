@@ -2,26 +2,25 @@
 import { X } from 'lucide-react'
 import { ChangeEvent, useState } from 'react'
 import { motion } from 'framer-motion'
-import { TWish } from '~/types/TWish'
-
+import { TAddWish } from '~/types/TAddWish'
 
 interface Props {
   onClose: () => void
-  onSubmit: (wish: TWish) => void
+  onSubmit: (wish: TAddWish) => void
 }
 
 function MakeAWish({ onClose, onSubmit }: Props) {
-  const [name, setName] = useState("");
+  const [from, setFrom] = useState("");
   const [body, setBody] = useState("");
 
-  const nameLength = name.length;
+  const fromLength = from.length;
   const bodyLength = body.length;
 
-  const handleOnNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const _nameLength = e.target.value.length;
+  const handleOnFromChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const _fromLength = e.target.value.length;
 
-    if (_nameLength > 20) return;
-    setName(e.target.value);
+    if (_fromLength > 20) return;
+    setFrom(e.target.value);
   }
 
   const handleOnBodyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -32,7 +31,9 @@ function MakeAWish({ onClose, onSubmit }: Props) {
   }
 
   const submitAWish = () => {
-    onSubmit({ name, body });
+    if (from.length === 0 || body.length === 0) return;
+
+    onSubmit({ from, body });
   }
 
   return (
@@ -42,8 +43,8 @@ function MakeAWish({ onClose, onSubmit }: Props) {
           <X size="1rem" />
         </button>
         <h4>จาก</h4>
-        <input value={name} onChange={handleOnNameChange} placeholder='ชื่อผู้ส่ง' className='text-lg outline-none w-full bg-transparent border p-2 border-white/30 rounded-lg' />
-        <p className='text-xs text-neutral-400'>{nameLength}/20</p>
+        <input value={from} onChange={handleOnFromChange} placeholder='ชื่อผู้ส่ง' className='text-lg outline-none w-full bg-transparent border p-2 border-white/30 rounded-lg' />
+        <p className='text-xs text-neutral-400'>{fromLength}/20</p>
         <h4 className='mt-4'>คำอวยพร</h4>
         <textarea value={body} onChange={handleOnBodyChange} className='w-full outline-none text-lg bg-transparent border border-white/30 p-2 rounded-lg' placeholder='เขียนคำอวยพรตรงนี้' rows={6} />
         <p className='text-xs text-neutral-400'>{bodyLength}/200</p>

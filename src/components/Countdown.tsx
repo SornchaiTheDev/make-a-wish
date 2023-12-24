@@ -1,13 +1,10 @@
 "use client"
 
-import React, { useEffect } from 'react'
 import { useCountdown } from '~/hooks/useCountdown'
 
 function Countdown() {
   const NEW_YEAR_DATE = new Date("2024-01-01T00:03:00")
   const { days, hours, minutes, seconds } = useCountdown(NEW_YEAR_DATE);
-
-  if (days === "") return null;
 
   return (
     <div className='flex gap-10 text-white'>
