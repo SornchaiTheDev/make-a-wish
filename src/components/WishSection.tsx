@@ -29,11 +29,11 @@ function WishSection() {
   }
 
   const handleOnSubmitAWish = async (wish: TAddWish) => {
-    setIsSent(true)
-    setIsMakeAWishOpen(false)
+
 
     const res = await axios.post("/api/v1/wishes", wish)
-
+    setIsMakeAWishOpen(false)
+    setIsSent(true)
     setWishId(res.data)
 
   }

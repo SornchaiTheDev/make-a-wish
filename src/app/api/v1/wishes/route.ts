@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     });
 
     const wish = await db.collection("wishes").add(wishDoc);
-
+    console.log(wish.id);
     return Response.json(wish.id, {
       headers: {
         "X-RateLimit-Limit": result.limit.toString(),
@@ -49,7 +49,6 @@ export async function POST(req: Request) {
       },
     });
   } catch (err) {
-    console.log(err)
-    return Response.error();
+    return Response.json(err);
   }
 }

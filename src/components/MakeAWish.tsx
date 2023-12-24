@@ -12,6 +12,7 @@ interface Props {
 function MakeAWish({ onClose, onSubmit }: Props) {
   const [from, setFrom] = useState("");
   const [body, setBody] = useState("");
+  const [isSubmmited, setIsSubmitted] = useState(false)
 
   const fromLength = from.length;
   const bodyLength = body.length;
@@ -32,7 +33,7 @@ function MakeAWish({ onClose, onSubmit }: Props) {
 
   const submitAWish = () => {
     if (from.length === 0 || body.length === 0) return;
-
+    setIsSubmitted(true)
     onSubmit({ from, body });
   }
 
@@ -48,7 +49,7 @@ function MakeAWish({ onClose, onSubmit }: Props) {
         <h4 className='mt-4'>คำอวยพร</h4>
         <textarea value={body} onChange={handleOnBodyChange} className='w-full outline-none text-lg bg-transparent border border-white/30 p-2 rounded-lg' placeholder='เขียนคำอวยพรตรงนี้' rows={6} />
         <p className='text-xs text-neutral-400'>{bodyLength}/200</p>
-        <button onClick={submitAWish} className='border w-full rounded-full bg-neutral-700 hover:bg-neutral-800 py-2 text-white mt-4'>ส่ง</button>
+        <button disabled={isSubmmited} onClick={submitAWish} className='border w-full rounded-full bg-neutral-700 hover:bg-neutral-800 py-2 text-white mt-4'>{isSubmmited ? "กำลังส่ง" : "ส่ง"}</button>
       </motion.div>
     </>
   )
