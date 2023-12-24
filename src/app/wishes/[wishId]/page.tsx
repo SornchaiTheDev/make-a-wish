@@ -72,9 +72,9 @@ function Wish({ params }: { params: { wishId: string } }) {
             </div>
           </div>
         </div>
-        <div className="flex gap-4">
-          <button onClick={handleOnClickBack} className="hover:bg-white hover:text-black border-2 px-8 py-2 rounded-full w-48 mt-4">ย้อนกลับ</button>
-          <button onClick={handleOnClickMakeAWish} className="hover:bg-white hover:text-black border-2 px-8 py-2 rounded-full w-48 mt-4">เขียนคำอวยพร</button>
+        <div className="flex flex-wrap gap-4">
+          <button onClick={handleOnClickBack} className="hover:bg-white hover:text-black border-2 px-8 py-2 rounded-full w-full lg:w-48 mt-4">ย้อนกลับ</button>
+          <button onClick={handleOnClickMakeAWish} className="hover:bg-white hover:text-black border-2 px-8 py-2 rounded-full w-full lg:w-48 mt-4">เขียนคำอวยพร</button>
         </div>
       </div>
     </>

@@ -6,7 +6,7 @@ import { Ratelimit } from "@upstash/ratelimit";
 const redis = Redis.fromEnv();
 const rateLimiter = new Ratelimit({
   redis,
-  limiter: Ratelimit.slidingWindow(1, "10 s"),
+  limiter: Ratelimit.slidingWindow(3, "3 s"),
 });
 
 export async function POST(req: Request) {
