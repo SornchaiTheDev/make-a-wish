@@ -18,7 +18,6 @@ function WishSection() {
   const [wishId, setWishId] = useState("")
   const [isSent, setIsSent] = useState(false);
   const { wishCount } = useWishCount()
-  const router = useRouter()
 
   const handleOnMakeAWishClick = () => {
     setIsMakeAWishOpen(true)
@@ -39,7 +38,7 @@ function WishSection() {
   const handleOnLottieEvent = (e: PlayerEvent) => {
     if (e === "complete") {
       setIsSent(false)
-      router.push(`/wishes/${wishId}`)
+      window.location.href = `/wishes/${wishId}`
     }
   }
 
@@ -48,7 +47,7 @@ function WishSection() {
 
     if (isRandomWishClick) return;
     const wishId = await axios.get("/api/v1/wishes/random")
-    router.push(`/wishes/${wishId.data}`)
+    window.location.href = `/wishes/${wishId.data}`
   }
 
   return (
