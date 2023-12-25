@@ -9,23 +9,11 @@ const athiti = Athiti({ subsets: ["thai"], weight: ["200", "300", "400", "500", 
 export const metadata: Metadata = {
   title: "Make a wish | KU Tech",
   description: "เวลาก็จะวนมาครบ 1 ปีอีกแล้วน้า ปีนี้เราผ่านอะไรมาเยอะเลย เราทุกคนเก่งมากเย่",
-  authors : {
-    name : "SornchaiTheDev",
-    url : "https://sornchaithedev.com"
+  authors: {
+    name: "SornchaiTheDev",
+    url: "https://sornchaithedev.com"
   },
   keywords: ["อวยพรปีใหม่"],
-  // openGraph: {
-  //   title: "Make a wish",
-  //   description: "เวลาก็จะวนมาครบ 1 ปีอีกแล้วน้า ปีนี้เราผ่านอะไรมาเยอะเลย เราทุกคนเก่งมากเย่",
-  //   url: process.env.DOMAIN,
-  //   images: [
-  //     {
-  //       url: `${process.env.DOMAIN}/api/v1/og/og`,
-  //       width: 1200,
-  //       height: 630
-  //     }
-  //   ]
-  // }
 }
 
 
@@ -36,6 +24,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script async src="https://us.umami.is/script.js" data-website-id="6816f800-bce5-4021-8c57-9d60f677bcb8"></script>
+      </head>
       <body className={twMerge(dancingScript.className, athiti.className, "bg-black")}>{children}</body>
     </html>
   )

@@ -9,7 +9,6 @@ const getWish = async (wishId: string): Promise<TWish | null> => {
   return res.json()
 };
 
-
 async function WishPage({ params }: { params: { wishId: string } }) {
 
   let wishObject = await getWish(params.wishId)
