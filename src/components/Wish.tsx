@@ -6,6 +6,7 @@ import { Candy, Heart, Laugh, Link } from 'lucide-react'
 import { useWish } from '~/hooks/useWish'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { formatNumber } from '~/utils'
 
 interface Props {
   wishObject: TWish
@@ -51,19 +52,19 @@ function Wish({ wishObject }: Props) {
             <button onClick={handleOnLoveClick}>
               <Heart fill='#ef4444' stroke='transparent' />
             </button>
-            <p>{wish.love ?? "0"}</p>
+            <p>{formatNumber(wish.love) ?? "0"}</p>
           </div>
           <div className='flex flex-col w-fit items-center gap-1 mt-4'>
             <button onClick={handleOnCandyClick}>
               <Candy fill='#ec4899' stroke='transparent' />
             </button>
-            <p>{wish.candy ?? "0"}</p>
+            <p>{formatNumber(wish.candy) ?? "0"}</p>
           </div>
           <div className='flex flex-col w-fit items-center gap-1 mt-4'>
             <button onClick={handleOnLaughClick}>
               <Laugh stroke='gold' />
             </button>
-            <p>{wish.laugh ?? "0"}</p>
+            <p>{formatNumber(wish.laugh) ?? "0"}</p>
           </div>
           <div className='flex flex-col w-fit items-center gap-1 mt-4'>
             <button onClick={handleOnShareClick}>
