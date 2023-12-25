@@ -23,10 +23,13 @@ export async function POST(req: Request) {
     const { from, body, token } = res;
 
     const detectedIp = requestIp.getClientIp(req as any);
+    console.log(detectedIp);
+    console.log(token)
+    
     let formData = new FormData();
     formData.append("secret", process.env.TURNSTILE_SECRET!);
     formData.append("response", token);
-    formData.append("remoteip", detectedIp!);
+    // formData.append("remoteip", detectedIp!);
     let { data } = await axios({
         method: "post",
         maxBodyLength: Infinity,
@@ -38,7 +41,7 @@ export async function POST(req: Request) {
     });
 
     if (!data.success) {
-        throw new Error("ซานตาไม่รับพรคุณ คุณลองใหม่อีกครั้ง");
+        return Response.json("ซานตาไม่รับพรคุณ คุณลองใหม่อีกครั้ง");
     }
 
     const wishDoc = {

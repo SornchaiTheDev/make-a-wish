@@ -8,6 +8,7 @@ interface Props {
 const TurnstileWidget: NextPage<Props> = ({ onVerify }) => {
     const turnstile = useTurnstile();
     return (
+       <>
         <Turnstile
             sitekey={process.env.turnstileSiteKey!}
             onVerify={(token) => {
@@ -17,6 +18,7 @@ const TurnstileWidget: NextPage<Props> = ({ onVerify }) => {
                 turnstile.reset();
             }}
         />
+       </>
     );
 }
 
