@@ -7,10 +7,14 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    height: {
-      screen: "calc(100dvh)",
+    extend: {
+      height: {
+        screen: "calc(100dvh)",
+      },
+      colors: {
+        primary: "rgb(11,26,47)",
+      },
     },
-    extend: {},
   },
 };
 export default config;
