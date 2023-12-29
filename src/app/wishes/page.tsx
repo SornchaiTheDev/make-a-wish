@@ -20,7 +20,8 @@ function SearchUserWishPage() {
     };
     try {
       const res = await axios.post("/api/v1/login", payload);
-      window.location.href = `/wishes/${res.data}`;
+      window.location.href = `/wishes/${res.data.id}`;
+      localStorage.setItem("token", res.data.token);
     } catch (err) {
       setIsError(true);
     }

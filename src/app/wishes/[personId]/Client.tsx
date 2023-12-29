@@ -53,8 +53,11 @@ const WishClient = ({ personId }: Props) => {
 
   const getWishes = useCallback(async () => {
     setIsLoading(true);
+    const token = localStorage.getItem("token");
+    
     const res = await axios.post<ReturnedWish>(`/api/v1/wishes/${personId}`, {
       lastWish,
+      token: token || null,
     });
     const { lastWish: _lastWish, wishes, person } = res.data;
     setUsername(person.username);
