@@ -31,7 +31,7 @@ export default function Home() {
             </a>
           </h6>
           <p className="text-center ">
-            &copy; 2023 by KU Tech @ Kasetsart University
+          Powered By KU Tech @ Kasetsart University
           </p>
         </div>
       </div>

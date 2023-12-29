@@ -107,6 +107,21 @@ function SendClient({
         >
           {isLoading ? "กำลังส่ง" : "ส่ง"}
         </button>
+        <div className="mt-8">
+          <h6 className="text-center">
+            Made by{" "}
+            <a
+              href="https://sornchaithedev.com"
+              target="_blank"
+              className="font-medium underline"
+            >
+              @SornchaiTheDev
+            </a>
+          </h6>
+          <p className="text-center ">
+            Powered By KU Tech @ Kasetsart University
+          </p>
+        </div>
       </div>
     </>
   );
