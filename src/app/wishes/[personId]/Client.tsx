@@ -29,12 +29,12 @@ const WishClient = ({ personId }: Props) => {
   const [wishes, setWishes] = useState<TWish[]>([]);
   const [username, setUsername] = useState("กำลังโหลด");
   const [lastWish, setLastWish] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
   const isEmptyWishes = wishes.length === 0;
   const wishLink = `https://hny2024.kutech.club/send/${personId}`;
 
-  const { ref, inView } = useInView({ delay: 500 });
+  const { ref, inView } = useInView({ threshold: 1, delay: 500 });
 
   const handleOnClickCopy = () => {
     if (navigator.clipboard) {
@@ -51,27 +51,22 @@ const WishClient = ({ personId }: Props) => {
     }
   }, [isCopied]);
 
-  const getWishes = useCallback(
-    async (wish: number | null = null) => {
-      setIsLoading(true);
-      const res = await axios.post<ReturnedWish>(`/api/v1/wishes/${personId}`, {
-        lastWish: wish,
-      });
-      const { lastWish, wishes, person } = res.data;
-      setUsername(person.username);
-      setIsLoading(false);
-      setLastWish(lastWish);
+  const getWishes = useCallback(async () => {
+    setIsLoading(true);
+    const res = await axios.post<ReturnedWish>(`/api/v1/wishes/${personId}`, {
+      lastWish,
+    });
+    const { lastWish: _lastWish, wishes, person } = res.data;
+    setUsername(person.username);
+    setIsLoading(false);
+    setLastWish(_lastWish);
 
-      setWishes((prev) => [...prev, ...wishes]);
-    },
-    [personId]
-  );
+    setWishes((prev) => [...prev, ...wishes]);
+  }, [personId, lastWish]);
 
   useEffect(() => {
-    if (inView) {
-      getWishes(lastWish);
-    }
-  }, [inView, getWishes, lastWish]);
+    getWishes();
+  }, [getWishes]);
 
   return (
     <>
@@ -79,7 +74,7 @@ const WishClient = ({ personId }: Props) => {
         <Lottie src={firework} loop />
       </div>
       <div className="container max-w-2xl mx-auto">
-        <div className="w-full max-w-[40rem] p-10 mt-10">
+        <div className="w-full max-w-[40rem] p-4">
           <a
             href="/"
             className="mt-4 mb-8 self-start rounded-lg flex gap-2 items-center hover:text-neutral-200"
@@ -90,8 +85,11 @@ const WishClient = ({ personId }: Props) => {
           <div className="flex flex-col items-center gap-2">
             <h2 className="text-center text-4xl">{username}</h2>
             <div className="flex gap-2  justify-center mt-4 items-center">
-              <Link />
-              <button onClick={handleOnClickCopy} className="text-xl">
+              <Link size="1rem" />
+              <button
+                onClick={handleOnClickCopy}
+                className="text-sm lg:text-xl"
+              >
                 {wishLink}
               </button>
             </div>
@@ -105,17 +103,25 @@ const WishClient = ({ personId }: Props) => {
             <h5 className="text-xl text-center mt-36">ยังไม่มีคำอวยพร</h5>
           )}
           <div className="flex flex-col gap-8 mt-10">
-            {wishes.map((wish) => (
-              <Wish key={wish.id} {...{ wish }} />
-            ))}
+            {!isLoading &&
+              wishes.map((wish) => <Wish key={wish.id} {...{ wish }} />)}
             {isLoading && (
               <>
+                <WishSkeleton />
+                <WishSkeleton />
+                <WishSkeleton />
+                <WishSkeleton />
                 <WishSkeleton />
                 <WishSkeleton />
               </>
             )}
           </div>
-          <div ref={ref} />
+          <button
+            onClick={getWishes}
+            className="hover:bg-white hover:text-black border-2 px-8 py-4 rounded-full w-full text-center mt-10 flex justify-center items-center gap-2"
+          >
+            โหลดเพิ่ม
+          </button>
         </div>
       </div>
     </>
