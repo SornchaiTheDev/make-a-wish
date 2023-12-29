@@ -1,1 +1,6 @@
-export type TAddWish = { from: string; body: string };
+export type TAddWish = {
+  from: string;
+  to: string;
+  body: string;
+  token: string;
+};
