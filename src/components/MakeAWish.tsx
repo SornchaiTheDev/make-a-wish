@@ -1,9 +1,9 @@
 "use client";
 import { X } from "lucide-react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { TAddWish } from "~/types/TAddWish";
-import TurnstileWidget from "./TurnstileWidget";
+import TurnstileWidget from "~/components/TurnstileWidget";
 import { useSearchParams } from "next/navigation";
 
 interface Props {
@@ -15,11 +15,22 @@ function MakeAWish({ onClose, onSubmit }: Props) {
   const [from, setFrom] = useState("");
   const [body, setBody] = useState("");
   const [token, setToken] = useState("");
+  const [to, setTo] = useState("");
   const params = useSearchParams();
-  const to = params.get("to") ?? "ใครกันน้า";
+
+  const toParam = params.get("to");
+  const isAlreadyHasToParam = toParam !== null;
+
+  useEffect(() => {
+    if (toParam !== null) {
+      setTo(toParam);
+    }
+  }, [toParam]);
+
   const [isSubmmited, setIsSubmitted] = useState(false);
 
   const fromLength = from.length;
+  const toLength = to.length;
   const bodyLength = body.length;
 
   const handleOnFromChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +38,13 @@ function MakeAWish({ onClose, onSubmit }: Props) {
 
     if (_fromLength > 20) return;
     setFrom(e.target.value);
+  };
+
+  const handleOnToChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const _toLength = e.target.value.length;
+
+    if (_toLength > 20) return;
+    setTo(e.target.value);
   };
 
   const handleOnBodyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -37,9 +55,16 @@ function MakeAWish({ onClose, onSubmit }: Props) {
   };
 
   const submitAWish = () => {
-    if (from.length === 0 || body.length === 0) return;
+    const isFromEmpty = from.length === 0;
+    const isToEmpty = to.length === 0;
+    const isBodyEmpty = body.length === 0;
+    const isTokenEmpty = token.length === 0;
+    const isSomeFieldEmpty =
+      isFromEmpty || isBodyEmpty || isToEmpty || isTokenEmpty;
+
+    if (isSomeFieldEmpty) return;
     setIsSubmitted(true);
-    onSubmit({ from, body, token });
+    onSubmit({ from, to, body, token });
   };
 
   return (
@@ -65,7 +90,14 @@ function MakeAWish({ onClose, onSubmit }: Props) {
         />
         <p className="text-xs text-neutral-400">{fromLength}/20</p>
         <h4>ถึง</h4>
-        <h4>{to}</h4>
+        <input
+          value={to}
+          disabled={isAlreadyHasToParam}
+          onChange={handleOnToChange}
+          placeholder="ชื่อผู้รับ"
+          className="text-lg outline-none w-full bg-transparent border p-2 border-white/30 rounded-lg"
+        />
+        <p className="text-xs text-neutral-400">{toLength}/20</p>
         <h4 className="mt-4">คำอวยพร</h4>
         <textarea
           value={body}

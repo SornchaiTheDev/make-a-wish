@@ -13,12 +13,9 @@ import send from "~/lottie/send.json";
 
 function WishSection() {
   const [isMakeAWishOpen, setIsMakeAWishOpen] = useState(false);
-  const [isRandomWishClick, setIsRandomWishClick] = useState(false);
   const [wishId, setWishId] = useState("");
   const [isSent, setIsSent] = useState(false);
   const { wishCount } = useWishCount();
-
-  const isNoWish = wishCount === 0;
 
   const handleOnMakeAWishClick = () => {
     setIsMakeAWishOpen(true);
@@ -39,17 +36,7 @@ function WishSection() {
     if (e === "complete") {
       setIsSent(false);
       if (wishId === "RATE_LIMIT") return;
-      window.location.href = `/wishes/${wishId}`;
     }
-  };
-
-  const handleOnRandomAWishClick = async () => {
-    if (isNoWish) return;
-    setIsRandomWishClick(true);
-
-    if (isRandomWishClick) return;
-    const wishId = await axios.get("/api/v1/wishes/random");
-    window.location.href = `/wishes/${wishId.data}`;
   };
 
   return (
@@ -74,26 +61,26 @@ function WishSection() {
       </AnimatePresence>
 
       <div className="w-full max-w-64">
-        <h6 className="text-center my-4">
+        <h6 className="text-center text-xl mt-8 mb-4">
           คำอวยพรทั้งหมด <span>•</span> {formatNumber(wishCount)} ครั้ง
         </h6>
-        <button
-          onClick={handleOnMakeAWishClick}
-          className="hover:bg-white hover:text-black border-2 px-8 py-2 rounded-full w-full  mt-10"
+        <a
+          href="/wishes"
+          className="hover:bg-white hover:text-black border-2 px-8 py-2 rounded-full w-full block text-center mt-10"
         >
-          เขียนคำอวยพร
-        </button>
+          เปิดกล่องคำอวยพร
+        </a>
         <div className="flex mx-auto my-4 w-1/2 gap-2 items-center">
           <div className="border flex-1 bg-white"></div>
           <p>หรือ</p>
           <div className="border flex-1 bg-white"></div>
         </div>
-        <button
-          onClick={handleOnRandomAWishClick}
-          className="hover:bg-white hover:text-black border-2 px-8 py-2 rounded-full w-full"
+        <a
+          href="/make"
+          className="bg-white hover:bg-white/70 hover:text-black/90 text-black border-2 px-8 py-2 rounded-full w-full block text-center"
         >
-          อ่านคำอวยพร
-        </button>
+          สร้างกล่องคำอวยพร
+        </a>
       </div>
     </>
   );

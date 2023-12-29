@@ -12,8 +12,14 @@ export async function POST(
   const { lastWish } = await req.json();
 
   try {
-    let wishesDoc;
-    wishesDoc = db
+    const personRef = db.collection("people").doc(personId);
+    const personSnap = await personRef.get();
+
+    if (!personSnap.exists) {
+      return Response.error();
+    }
+
+    const wishesDoc = db
       .collection("people")
       .doc(personId)
       .collection("wishes")
@@ -35,11 +41,11 @@ export async function POST(
     );
 
     return Response.json({
+      person: personSnap.data(),
       wishes,
       lastWish: _lastWish === undefined ? lastWish : _lastWish,
     });
   } catch (err) {
-    console.log(err);
     return Response.json(null);
   }
 }
