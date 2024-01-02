@@ -15,7 +15,9 @@ export const useCountdown = (date: Date) => {
 
   useEffect(() => {
     const timeout = setInterval(() => {
-      const days = formatAsTwoDigits(dayjs(date).diff(Date.now(), "days"));
+      const days = formatAsTwoDigits(
+        Math.max(dayjs(date).diff(Date.now(), "days"), 0)
+      );
       const hours = formatAsTwoDigits(
         Math.max(0, dayjs(date).diff(Date.now(), "hours") % 24)
       );
